@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("RatnoTech", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img src="~/Content/Images/banner.jpg" class="img-circle" height="50" width="50" />
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li><a href="@Url.Action("Search", "Home")"> Search</a></li>
+
+        @if (@User.Identity.Name != "")
+        {
+
+
+                    <li class="btn-group nav">
+                        <button type="button" class="btn navbar-btn" style="background-color:forestgreen">@User.Identity.Name</button>
+                        <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">My Account</a></li>
+                            <li><a href="@Url.Action("Profile", "Login")">View Profile</a></li>
+                            <li><a href="#">Edit Profile</a></li>
+                            <li><a href="#">Change Password</a></li>
+                            <li><a href="#">Setting</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </li>
+
+        }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (@User.Identity.Name == "")
+                    {
+                    <li>@Html.ActionLink("Register", "Register", "User", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                    <li>@Html.ActionLink("Login", "Index", "Login", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                    @*<li>@Html.ActionLink("Log in", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+                    }
+
+
+                    else
+
+                    {
+                        <li>
+                            @using (Html.BeginForm("Logout", "Login", FormMethod.Post))
+                            {
+                                <a href="javascript:;" onclick="document.forms[0].submit();">Logout</a>
+                            }
+                        </li>
+                    }
+
+                </ul>
+                @{
+                    Session["login"] = 0;
+                    string a = @Session["login"].ToString();
+
+                }
+                @if ( @a=="1")
+                {
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Logout", "logout", "User", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                </ul>
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Electrical Goods</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+
+</html>
